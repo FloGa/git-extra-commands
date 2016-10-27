@@ -1,0 +1,11 @@
+#!/bin/bash
+
+getLog() {
+    git log -1 --format=%s HEAD
+}
+
+log="$(getLog)"
+while [[ "$log" = "WIP" || "$log" = "WIP: "* ]]; do
+    git reset HEAD^
+    log="$(getLog)"
+done

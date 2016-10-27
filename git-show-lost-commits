@@ -1,0 +1,10 @@
+#!/bin/bash
+
+humanify() {
+    while read line; do
+        git log -n 1 --format='%cr : %h : %s' $line
+    done
+}
+
+git fsck --unreachable --lost-found | grep -oP '(?<=commit )\w+' | \
+    humanify | uniq

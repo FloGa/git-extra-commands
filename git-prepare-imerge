@@ -1,0 +1,13 @@
+#!/bin/bash
+
+base="$1"
+branch="$2"
+ancestor="$(git merge-base $base $branch)"
+
+git branch temp/prepare-imerge/$base $base
+git branch temp/prepare-imerge/$branch $branch
+
+git rebase $ancestor temp/prepare-imerge/$branch || exit 1
+git rebase $ancestor temp/prepare-imerge/$base || exit 1
+
+git imerge merge temp/prepare-imerge/$branch
