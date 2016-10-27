@@ -1,0 +1,23 @@
+#!/bin/bash
+
+args=()
+remotes=()
+
+for i in "$@"; do
+    case "$i" in
+        -*)
+            args+=("$i")
+            ;;
+        *)
+            remotes+=("$i")
+            ;;
+    esac
+done
+
+[ ${#remotes[@]} -eq 0 ] && remotes+=("origin")
+
+for i in "${remotes[@]}"; do
+    cmd=(git push "${args[@]}" "$i" :)
+    echo "${cmd[@]}"
+    "${cmd[@]}"
+done
